@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 import Form from './components/Form';
+import dotenv from 'dotenv';
+
+dotenv.config()
 
 class App extends Component {
 
-  getRecipe = e => {
+  state = {
+    recipes: []
+  }
+
+  getRecipe = async (e) => {
     e.preventDefault();
     let recipe = e.target.elements.recipe.value;
-    console.log(recipe)
+    
+    const api_call = await fetch(`https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${process.env.REACT_APP_API_KEY}&q=chicken%20breast&page=2`)
+    const data = await api_call.json();
+    this.setState({recipes: data})
+    console.log(this.state.recipes)
   }
 
   render() {
