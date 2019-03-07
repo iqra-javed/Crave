@@ -11,14 +11,18 @@ class App extends Component {
     recipes: []
   };
 
-  getRecipe = async (e) => {
+  getRecipe = async e => {
     e.preventDefault();
     let recipe = e.target.elements.recipe.value;
-    
-    const api_call = await fetch(`https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${process.env.REACT_APP_API_KEY}&q=${recipe}&page=2`)
+
+    const api_call = await fetch(
+      `https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${
+        process.env.REACT_APP_API_KEY
+      }&q=${recipe}&page=2`
+    );
     const data = await api_call.json();
-    this.setState({recipes: data.recipes})
-  }
+    this.setState({ recipes: data.recipes });
+  };
 
   render() {
     return (
@@ -34,5 +38,3 @@ class App extends Component {
 }
 
 export default App;
-
-
