@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import dotenv from 'dotenv';
 import { Link } from 'react-router-dom';
+import logo from '../logo.svg';
 
 dotenv.config();
 
 class Recipe extends Component {
   state = {
-    activeRecipe: []
+    activeRecipe: [],
+    isLoading: true
   };
 
   async componentDidMount() {
     let title = this.props.location.state.recipe;
-
+    
     let req = await fetch(
       `https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${
         process.env.REACT_APP_API_KEY
@@ -19,14 +21,15 @@ class Recipe extends Component {
     );
     let res = await req.json();
 
-    this.setState({ activeRecipe: res.recipes[0] });
+    this.setState({ activeRecipe: res.recipes[0], isLoading: false });
   }
 
   render() {
     const recipe = this.state.activeRecipe;
+    let loading = <img src={logo} className='App-logo' alt='logo' />;
     return (
       <div className='container'>
-        {this.state.activeRecipe.length !== 0 && (
+        {this.state.activeRecipe.length === 0 ? loading : (
           <div className='active-recipe'>
             <img
               className='active-recipe__img'
