@@ -1,17 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Recipes = props => (
   <div className='container'>
     <div className='row'>
+   
       {props.recipes.map(recipe => (
         <div
           key={recipe.recipe_id}
           className='col-md-4'
           style={{ marginBottom: '2rem' }}
         >
-          <div className='recipe__box'>
+          <div className='recipe-box'>
             <img
-              className='recipe__box-img'
+              className='recipe-box__img'
               src={recipe.image_url}
               alt={recipe.title}
             />
@@ -21,23 +23,14 @@ const Recipes = props => (
                 Publisher: <span>{recipe.publisher}</span>
               </p>
             </div>
-            <button className="recipe__button">View Recipe</button>
+            <button className="recipe__button">
+            <Link to={{ pathname: `/recipe/${recipe.recipe_id}`, state: { recipe: recipe.title}}}>View Recipe</Link>
+            </button>
           </div>
         </div>
       ))}
     </div>
   </div>
 );
-
-// const Recipes = props => (
-//   <div>
-//     {props.recipes.map(recipe => (
-//       <div key={recipe.recipe_id}>
-//         <img src={recipe.image_url} alt={recipe.title} />
-//         <p>{recipe.title}</p>
-//       </div>
-//     ))}
-//   </div>
-// );
 
 export default Recipes;

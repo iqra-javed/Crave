@@ -4,13 +4,12 @@ import Form from './components/Form';
 import Recipes from './components/Recipes';
 import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 class App extends Component {
-
   state = {
     recipes: []
-  }
+  };
 
   getRecipe = async (e) => {
     e.preventDefault();
@@ -23,15 +22,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-        <h1>Crave</h1>
+      <div className='App'>
+        <header className='App-header'>
+          <h1>Crave</h1>
         </header>
-        <Form getRecipe={this.getRecipe}/>
-        <Recipes recipes={this.state.recipes}/>
+        <Form getRecipe={this.getRecipe} />
+        <Recipes recipes={this.state.recipes} />
       </div>
     );
   }
 }
 
 export default App;
+
+
