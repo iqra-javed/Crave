@@ -39,16 +39,17 @@ class App extends Component {
 
   componentDidMount() {
     const json = localStorage.getItem('recipes');
-
-    // if local storage is empty, getItem returns undefined.
+    console.log("componentDidMount")
+    console.log(json)
+    // if local storage is an empty array, getItem returns null.
     // In that case, set state equal to empty array instead. Otherwise if
-    // JSON.parse is given undefined as an argument,
-    // it returns null. Providing null as props to Recipes causes app to break.
+    // Providing null as props to Recipes causes app to break.
     const recipes = JSON.parse(json) || [];
     this.setState({ recipes });
   }
 
   componentDidUpdate() {
+    console.log("componentDIdUpdate")
     const recipes = JSON.stringify(this.state.recipes);
     localStorage.setItem('recipes', recipes);
   }
