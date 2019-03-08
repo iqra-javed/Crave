@@ -5,7 +5,6 @@ import Recipes from './components/Recipes';
 import logo from './logo.svg';
 import dotenv from 'dotenv';
 
-
 dotenv.config();
 
 class App extends Component {
@@ -18,7 +17,7 @@ class App extends Component {
     e.preventDefault();
     let recipe = e.target.elements.recipe.value;
 
-    this.setState({isLoading: true}, async () => {
+    this.setState({ isLoading: true }, async () => {
       const api_call = await fetch(
         `https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${
           process.env.REACT_APP_API_KEY
@@ -26,30 +25,30 @@ class App extends Component {
       );
       const data = await api_call.json();
       this.setState({ recipes: data.recipes, isLoading: false });
-    })
+    });
 
-  //   try {
-  //     let response = await fetch('/no-user-here');
-  //     let user = await response.json();
-  //   } catch(err) {
-  //     // catches errors both in fetch and response.json
-  //     alert(err);
-  //   }
-  // }
-    
+    //   try {
+    //     let response = await fetch('/no-user-here');
+    //     let user = await response.json();
+    //   } catch(err) {
+    //     // catches errors both in fetch and response.json
+    //     alert(err);
+    //   }
+    // }
   };
 
   componentDidMount() {
-    const json = localStorage.getItem("recipes");
-    const recipes = JSON.parse(json);
+    const json = localStorage.getItem('recipes');
+    
+    const recipes = JSON.parse(json) || [];
+    console.log(recipes)
 
-this.setState({ recipes }) 
- 
+    this.setState({ recipes });
   }
 
   componentDidUpdate() {
     const recipes = JSON.stringify(this.state.recipes);
-    localStorage.setItem("recipes", recipes);
+    localStorage.setItem('recipes', recipes);
   }
 
   render() {
@@ -60,8 +59,11 @@ this.setState({ recipes })
           <h1>Crave</h1>
         </header>
         <Form getRecipe={this.getRecipe} />
-        {this.state.isLoading ? loading :  <Recipes recipes={this.state.recipes || []} /> }
-       
+        {this.state.isLoading ? (
+          loading
+        ) : (
+          <Recipes recipes={this.state.recipes} />
+        )}
       </div>
     );
   }
