@@ -28,13 +28,23 @@ class App extends Component {
       this.setState({ recipes: data.recipes, isLoading: false });
     })
 
+  //   try {
+  //     let response = await fetch('/no-user-here');
+  //     let user = await response.json();
+  //   } catch(err) {
+  //     // catches errors both in fetch and response.json
+  //     alert(err);
+  //   }
+  // }
     
   };
 
   componentDidMount() {
     const json = localStorage.getItem("recipes");
     const recipes = JSON.parse(json);
-    this.setState({ recipes });
+
+this.setState({ recipes }) 
+ 
   }
 
   componentDidUpdate() {
@@ -50,7 +60,7 @@ class App extends Component {
           <h1>Crave</h1>
         </header>
         <Form getRecipe={this.getRecipe} />
-        {this.state.isLoading ? loading :  <Recipes recipes={this.state.recipes} /> }
+        {this.state.isLoading ? loading :  <Recipes recipes={this.state.recipes || []} /> }
        
       </div>
     );
