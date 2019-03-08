@@ -19,7 +19,7 @@ class App extends Component {
     let recipe = e.target.elements.recipe.value;
 
     recipe
-      ? this.setState({ isLoading: true }, () => {
+      ? this.setState({ isLoading: true, error: "" }, () => {
           fetch(
             `https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${
               process.env.REACT_APP_API_KEY
@@ -67,7 +67,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const json = localStorage.getItem('recipes');
+    const json = sessionStorage.getItem('recipes');
     // if key does not exist, getItem returns null.
     // In that case, set state equal to empty array instead. Otherwise,
     // providing null as props to Recipes causes app to break.
@@ -77,7 +77,7 @@ class App extends Component {
 
   componentDidUpdate() {
     const recipes = JSON.stringify(this.state.recipes);
-    localStorage.setItem('recipes', recipes);
+    sessionStorage.setItem('recipes', recipes);
   }
 
   render() {
