@@ -19,7 +19,7 @@ class App extends Component {
     let recipe = e.target.elements.recipe.value;
 
     recipe
-      ? this.setState({ isLoading: true, error: "" }, () => {
+      ? this.setState({ isLoading: true, error: '' }, () => {
           fetch(
             `https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${
               process.env.REACT_APP_API_KEY

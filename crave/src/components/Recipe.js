@@ -13,7 +13,7 @@ class Recipe extends Component {
 
   async componentDidMount() {
     let title = this.props.location.state.recipe;
-    
+
     let req = await fetch(
       `https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${
         process.env.REACT_APP_API_KEY
@@ -29,7 +29,9 @@ class Recipe extends Component {
     let loading = <img src={logo} className='App-logo' alt='logo' />;
     return (
       <div className='container'>
-        {this.state.activeRecipe.length === 0 ? loading : (
+        {this.state.activeRecipe.length === 0 ? (
+          loading
+        ) : (
           <div className='active-recipe'>
             <img
               className='active-recipe__img'
