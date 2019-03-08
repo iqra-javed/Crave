@@ -39,17 +39,14 @@ class App extends Component {
 
   componentDidMount() {
     const json = localStorage.getItem('recipes');
-    console.log("componentDidMount")
-    console.log(json)
-    // if local storage is an empty array, getItem returns null.
-    // In that case, set state equal to empty array instead. Otherwise if
-    // Providing null as props to Recipes causes app to break.
+    // if key does not exist, getItem returns null.
+    // In that case, set state equal to empty array instead. Otherwise,
+    // providing null as props to Recipes causes app to break.
     const recipes = JSON.parse(json) || [];
     this.setState({ recipes });
   }
 
   componentDidUpdate() {
-    console.log("componentDIdUpdate")
     const recipes = JSON.stringify(this.state.recipes);
     localStorage.setItem('recipes', recipes);
   }
