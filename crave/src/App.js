@@ -10,31 +10,60 @@ dotenv.config();
 class App extends Component {
   state = {
     recipes: [],
-    isLoading: false
+    isLoading: false,
+    error: ''
   };
 
   getRecipe = e => {
     e.preventDefault();
     let recipe = e.target.elements.recipe.value;
 
-    this.setState({ isLoading: true }, async () => {
-      const api_call = await fetch(
-        `https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${
-          process.env.REACT_APP_API_KEY
-        }&q=${recipe}&page=2`
-      );
-      const data = await api_call.json();
-      this.setState({ recipes: data.recipes, isLoading: false });
-    });
-
-    //   try {
-    //     let response = await fetch('/no-user-here');
-    //     let user = await response.json();
-    //   } catch(err) {
-    //     // catches errors both in fetch and response.json
-    //     alert(err);
-    //   }
-    // }
+    recipe
+      ? this.setState({ isLoading: true }, () => {
+          fetch(
+            `https://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/search?key=${
+              process.env.REACT_APP_API_KEY
+            }&q=${recipe}&page=2`
+          )
+            .then(response => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                let error = Object.assign(
+                  {},
+                  {
+                    status: response.status,
+                    statusText: response.statusText
+                  }
+                );
+                this.setState({
+                  error: error,
+                  recipes: [],
+                  isLoading: false
+                });
+                return Promise.reject(error);
+              }
+            })
+            .then(data => {
+              data.recipes.length !== 0
+                ? this.setState({
+                    recipes: data.recipes,
+                    isLoading: false,
+                    error: ''
+                  })
+                : this.setState({
+                    error: 'No matching recipes were found',
+                    isLoading: false,
+                    recipes: []
+                  });
+            })
+            .catch(error => {
+              console.log('Fetching Failed: ', error.statusText);
+            });
+        })
+      : this.setState({
+          error: 'Please enter a recipe name or ingredient to continue'
+        });
   };
 
   componentDidMount() {
@@ -58,6 +87,11 @@ class App extends Component {
         <header className='App-header'>
           <h1>Crave</h1>
         </header>
+        {this.state.error ? (
+          <div style={{ color: 'red', marginBottom: '10px' }}>
+            {this.state.error.statusText || this.state.error}
+          </div>
+        ) : null}
         <Form getRecipe={this.getRecipe} />
         {this.state.isLoading ? (
           loading
